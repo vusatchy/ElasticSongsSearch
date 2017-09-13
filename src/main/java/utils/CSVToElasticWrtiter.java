@@ -9,34 +9,32 @@ import org.elasticsearch.spark.rdd.api.java.JavaEsSpark;
 import org.spark_project.guava.collect.ImmutableMap;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Map;
 
 
 public class CSVToElasticWrtiter {
-    private BufferedReader bfr;
-    private JavaSparkContext jsc;
+    private File file;
+    private String target;
 
-    public CSVToElasticWrtiter(BufferedReader bfr, JavaSparkContext jsc) {
-        this.jsc=jsc;
-        this.bfr = bfr;
+    public CSVToElasticWrtiter(File file,String target) {
+        this.file = file;
+        this.target=target;
     }
 
     public void  writeIntoES() throws IOException {
 
         CSVReader reader = null;
-        reader = new CSVReader(bfr);
+        reader = new CSVReader(new BufferedReader(new FileReader(file)));
         String[] line;
-        reader.readNext(); //names of feilds reading
+        reader.readNext(); //names of feilds readi
         while ((line = reader.readNext()) != null) {
-           /* for (String s:line
-                 ) {
-                System.out.println(s);
-            }*/
+
             Map<String, String> data = ImmutableMap.of("band", line[0], "lyrics", line[1],"song",line[2]);
-            JavaRDD<Map<String, ?>> javaRDD = jsc.parallelize(ImmutableList.of(data));
-            JavaEsSpark.saveToEs(javaRDD, "elastic/songs");
+            JavaRDD<Map<String, ?>> javaRDD = SparkApplicationContext.getContext().parallelize(ImmutableList.of(data));
+            JavaEsSpark.saveToEs(javaRDD, target);
         }
     }
 
