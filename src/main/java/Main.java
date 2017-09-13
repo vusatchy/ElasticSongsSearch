@@ -1,16 +1,7 @@
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-import com.opencsv.CSVReader;
-import org.apache.spark.SparkConf;
-import org.apache.spark.SparkContext;
 import org.apache.spark.api.java.JavaPairRDD;
-import org.apache.spark.api.java.JavaRDD;
-import org.apache.spark.api.java.JavaSparkContext;
 import utils.CSVToElasticWrtiter;
 import utils.Resources;
-import org.elasticsearch.spark.rdd.api.java.JavaEsSpark;
-import  org.elasticsearch.spark.*;
-import utils.elastic_queues_handler.SongsResponse;
+import elastic_queues_handler.SongsResponse;
 
 import java.io.*;
 import java.util.Map;

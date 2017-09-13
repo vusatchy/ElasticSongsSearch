@@ -1,4 +1,4 @@
-package utils.elastic_queues_handler;
+package elastic_queues_handler;
 
 import org.apache.spark.api.java.JavaPairRDD;
 import org.elasticsearch.spark.rdd.api.java.JavaEsSpark;
