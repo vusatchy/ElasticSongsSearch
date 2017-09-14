@@ -8,14 +8,14 @@ import java.util.Map;
 
 public class SongsResponse {
     private String taget;
-    private String querryMatchPattern="{ \"query\" : {\"match\": {\"lyrics\": {\"query\":\"VALUE\",\"fuzziness\": \"AUTO\",\"operator\":  \"and\"}}}}";
+    private final String querryMatchPattern="{ \"query\" : {\"match\": {\"lyrics\": {\"query\":\"%s\",\"fuzziness\": \"1\",\"operator\":  \"and\"}}}}";
 
     public SongsResponse(String taget) {
         this.taget = taget;
     }
 
     public JavaPairRDD<String, Map<String, Object>> getSongByPhraseFromLyrics(String phrase){
-        return JavaEsSpark.esRDD(SparkApplicationContext.getContext(), taget,querryMatchPattern.replaceFirst("VALUE",phrase));
+        return JavaEsSpark.esRDD(SparkApplicationContext.getContext(), taget, String.format(querryMatchPattern, phrase));
     }
 
 }
